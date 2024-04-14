@@ -24,7 +24,12 @@ jobs:
       DISPLAY: ":99.0"
       QT_SELECT: "qt5"
     steps:
-      - uses: conda-incubator/setup-miniconda@v3
+      - name: Harden Runner
+        uses: step-security/harden-runner@63c24ba6bd7ba022e95695ff85de572c04a18142 # v2.7.0
+        with:
+          egress-policy: audit
+
+      - uses: conda-incubator/setup-miniconda@030178870c779d9e5e1b4e563269f3aa69b04081 # v3.0.3
         with:
           python-version: "3.10"
           mamba-version: "*"
@@ -57,7 +62,7 @@ jobs:
           cd qscat
           pytest --cov=qscat/ --cov-report xml tests/
       - name: Upload Coverage Reports to CodeCov
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@84508663e988701840491b86de86b666e8a86bed # v4.3.0
         with:
           flags: qgis-3.22.16-tests
         env:
